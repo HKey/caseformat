@@ -53,14 +53,15 @@
                                                 init-contents
                                                 expected-contents)
   "Test helper for buffers.
-This returns t if the result of doing ACTION in a temporary buffer inserted
-INIT-CONTENTS equals EXPECTED-CONTENTS.
+This calls `should' to check that the result of doing ACTION in a temporary
+buffer inserted INIT-CONTENTS equals EXPECTED-CONTENTS.
 ACTION is a function.
 INIT-CONTENTS and EXPECTED-CONTENTS are strings.
 
 This function compares the buffer strings and the cursor positions of
 the result buffer and EXPECTED-CONTENTS buffer.
-To indicate the cursor position, use `caseformat-test--cursor-indicator'."
+To indicate the cursor position, use the value of
+`caseformat-test--cursor-indicator'."
   (let (result expected)
     (with-temp-buffer
       (caseformat-test--setup-in-buffer init-contents)
