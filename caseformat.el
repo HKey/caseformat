@@ -118,7 +118,7 @@ When N is negative, convert characters backward."
                       (lambda ()
                         (re-search-forward "[ \n\t]*\\([^ \n\t]+\\)" nil t))
                     (lambda ()
-                      (re-search-backward "[ \n\t\`]\\([^ \n\t]+\\)" nil t))))
+                      (re-search-backward "\\(?:[ \n\t]\\|\\`\\)\\([^ \n\t]+\\)" nil t))))
         (count (abs n))
         (point (point-marker)))
     (save-excursion
