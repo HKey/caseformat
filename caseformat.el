@@ -152,7 +152,7 @@ This command does not move the cursor position."
   :keymap caseformat-mode-map)
 
 ;;;###autoload
-(define-globalized-minor-mode caseformat-global-mode
+(define-globalized-minor-mode global-caseformat-mode
   caseformat-mode
   (lambda () (caseformat-mode 1)))
 
