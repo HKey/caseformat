@@ -58,11 +58,11 @@ have a parameter and return a converted string like `capitalize'.
  not converted"
   :type '(list (list string function)))
 
-(defvar caseformat-minor-mode-map
+(defvar caseformat-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "M-l") #'caseformat-backward)
     map)
-  "A keymap for `caseformat-minor-mode'.")
+  "A keymap for `caseformat-mode'.")
 
 
 (defun caseformat--split (string table)
@@ -146,15 +146,15 @@ This command does not move the cursor position."
 
 
 ;;;###autoload
-(define-minor-mode caseformat-minor-mode
+(define-minor-mode caseformat-mode
   "A minor-mode to manage caseformat commands."
   :group 'caseformat
-  :keymap caseformat-minor-mode-map)
+  :keymap caseformat-mode-map)
 
 ;;;###autoload
-(define-globalized-minor-mode caseformat-global-minor-mode
-  caseformat-minor-mode
-  (lambda () (caseformat-minor-mode 1)))
+(define-globalized-minor-mode caseformat-global-mode
+  caseformat-mode
+  (lambda () (caseformat-mode 1)))
 
 (provide 'caseformat)
 ;;; caseformat.el ends here
