@@ -38,8 +38,8 @@
   :prefix "caseformat-")
 
 (defcustom caseformat-converter-table
-  '(("," capitalize)
-    (";" upcase))
+  '(("-" capitalize)
+    (":" upcase))
   "A list which indicates how to convert alphabetical strings.
 Each element is a list like (<prefix> <converter>).
 <prefix> is a string which indicates the start of conversion.
@@ -49,7 +49,7 @@ have a parameter and return a converted string like `capitalize'.
          -------------- prefixes
          |    |
          v    v
-    camel,case,string
+    camel-case-string
     ~~~~~ ~~~~~ ~~~~
       ^     ^     ^
       |     |     |
@@ -74,8 +74,8 @@ Each element of the returned list is a cons cell like (<prefix> . <body>).
 <body> is a string to be converted.
 
 Example:
-  (caseformat--split \"foo,bar;baz\" caseformat-converter-table)
-  ;; => ((nil . \"foo\") (\",\" . \"bar\") (\";\" . \"baz\"))"
+  (caseformat--split \"foo-bar:baz\" caseformat-converter-table)
+  ;; => ((nil . \"foo\") (\"-\" . \"bar\") (\":\" . \"baz\"))"
   (let ((prefixes (-map #'car table)))
     (-if-let ((_ no-prefix prefix body other)
               (s-match
@@ -103,7 +103,7 @@ Return a converted string."
 TABLE is a list like `caseformat-converter-table'.
 
 Example:
-  (caseformat-convert \",foo;bar\")
+  (caseformat-convert \"-foo:bar\")
   ;; => \"FooBAR\""
   (->> (caseformat--split string table)
        (--map (-let (((prefix . body) it))

@@ -78,26 +78,26 @@ To indicate the cursor position, use the value of
 
 (ert-deftest caseformat-test-convert ()
   (should (equal (caseformat-convert "foo") "foo"))
-  (should (equal (caseformat-convert ",foo") "Foo"))
-  (should (equal (caseformat-convert "foo,bar;baz") "fooBarBAZ"))
-  (should (equal (caseformat-convert ",,,foo;") ",,Foo;")))
+  (should (equal (caseformat-convert "-foo") "Foo"))
+  (should (equal (caseformat-convert "foo-bar:baz") "fooBarBAZ"))
+  (should (equal (caseformat-convert "---foo:") "--Foo:")))
 
 (ert-deftest caseformat-test-commands ()
   (caseformat-test-should-with-temp-buffer
    #'caseformat-forward
-   "`|',foo ;bar"
-   "`|'Foo ;bar")
+   "`|'-foo :bar"
+   "`|'Foo :bar")
   (caseformat-test-should-with-temp-buffer
    #'caseformat-backward
-   ",foo ;bar`|'"
-   ",foo BAR`|'")
+   "-foo :bar`|'"
+   "-foo BAR`|'")
   (caseformat-test-should-with-temp-buffer
    (lambda () (caseformat-forward 2))
-   "`|',foo ;bar"
+   "`|'-foo :bar"
    "`|'Foo BAR")
   (caseformat-test-should-with-temp-buffer
    (lambda () (caseformat-backward 2))
-   ",foo ;bar`|'"
+   "-foo :bar`|'"
    "Foo BAR`|'"))
 
 (provide 'caseformat-test)
