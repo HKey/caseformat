@@ -54,7 +54,7 @@ have a parameter and return a converted string like `capitalize'.
       ^     ^     ^
       |     |     |
       |     ----------- target strings
-      |                 (to be converted by `capitalize' as default)
+      |                 (to be converted by `capitalize' by default)
  not converted"
   :type '(list (list string function)))
 
