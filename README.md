@@ -43,7 +43,7 @@ The default value of it is below:
 ```emacs-lisp
 caseformat-converter-table
 ;; => (("-" capitalize)
-       (":" upcase))
+;;     (":" upcase))
 ```
 
 ## Versioning
