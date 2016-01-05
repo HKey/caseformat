@@ -2,8 +2,6 @@
 
 Caseformat is a format based letter case converter.
 
-![screencast](assets/screencast.gif)
-
 This tool helps you to insert uppercase alphabetical characters without
 shift keys.
 
