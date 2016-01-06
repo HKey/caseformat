@@ -1,5 +1,7 @@
 # caseformat
 
+[![Build Status](https://travis-ci.org/HKey/caseformat.svg?branch=master)](https://travis-ci.org/HKey/caseformat)
+
 Caseformat is a format based letter case converter.
 
 ![screencast](https://raw.githubusercontent.com/HKey/caseformat-assets/master/screencast.gif)
