@@ -23,10 +23,11 @@ before_install:
   - cask update
 script:
   - emacs --version
-  - make test
+  - make $MAKE_COMMAND
 env:
-  - EVM_EMACS=emacs-24.1-travis
-  - EVM_EMACS=emacs-24.2-travis
-  - EVM_EMACS=emacs-24.3-travis
-  - EVM_EMACS=emacs-24.4-travis
-  - EVM_EMACS=emacs-24.5-travis
+  - EVM_EMACS=emacs-24.1-travis MAKE_COMMAND=test
+  - EVM_EMACS=emacs-24.2-travis MAKE_COMMAND=test
+  - EVM_EMACS=emacs-24.3-travis MAKE_COMMAND=test
+  - EVM_EMACS=emacs-24.4-travis MAKE_COMMAND=test
+  - EVM_EMACS=emacs-24.5-travis MAKE_COMMAND=test
+  - EVM_EMACS=emacs-24.5-travis MAKE_COMMAND=coverage

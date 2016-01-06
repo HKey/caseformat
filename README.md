@@ -1,6 +1,7 @@
 # caseformat
 
 [![Build Status](https://travis-ci.org/HKey/caseformat.svg?branch=master)](https://travis-ci.org/HKey/caseformat)
+[![Coverage Status](https://coveralls.io/repos/HKey/caseformat/badge.svg?branch=master&service=github)](https://coveralls.io/github/HKey/caseformat?branch=master)
 
 Caseformat is a format based letter case converter.
 
