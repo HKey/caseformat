@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/HKey/caseformat.svg?branch=master)](https://travis-ci.org/HKey/caseformat)
 [![Coverage Status](https://coveralls.io/repos/HKey/caseformat/badge.svg?branch=master&service=github)](https://coveralls.io/github/HKey/caseformat?branch=master)
+[![MELPA](http://melpa.org/packages/caseformat-badge.svg)](http://melpa.org/#/caseformat)
+[![MELPA Stable](http://stable.melpa.org/packages/caseformat-badge.svg)](http://stable.melpa.org/#/caseformat)
 
 Caseformat is a format based letter case converter.
 
