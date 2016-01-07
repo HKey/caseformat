@@ -1,4 +1,4 @@
-language: emacs-lisp
+language: ruby
 before_install:
   # install evm
   - curl -fsSL https://raw.githubusercontent.com/rejeep/evm/master/go | bash
@@ -22,12 +22,15 @@ before_install:
   - cask upgrade-cask
   - cask update
 script:
+  - ruby --version
+  - rake --version
+  - cask --version
   - emacs --version
-  - make $MAKE_COMMAND
+  - rake $RAKE_COMMAND
 env:
-  - EVM_EMACS=emacs-24.1-travis MAKE_COMMAND=test
-  - EVM_EMACS=emacs-24.2-travis MAKE_COMMAND=test
-  - EVM_EMACS=emacs-24.3-travis MAKE_COMMAND=test
-  - EVM_EMACS=emacs-24.4-travis MAKE_COMMAND=test
-  - EVM_EMACS=emacs-24.5-travis MAKE_COMMAND=test
-  - EVM_EMACS=emacs-24.5-travis MAKE_COMMAND=coverage
+  - EVM_EMACS=emacs-24.1-travis RAKE_COMMAND=test
+  - EVM_EMACS=emacs-24.2-travis RAKE_COMMAND=test
+  - EVM_EMACS=emacs-24.3-travis RAKE_COMMAND=test
+  - EVM_EMACS=emacs-24.4-travis RAKE_COMMAND=test
+  - EVM_EMACS=emacs-24.5-travis RAKE_COMMAND=test
+  - EVM_EMACS=emacs-24.5-travis RAKE_COMMAND=coverage
