@@ -60,7 +60,8 @@ have a parameter and return a converted string like `capitalize'.
       |     ----------- target strings
       |                 (to be converted by `capitalize' by default)
  not converted"
-  :type '(list (list string function)))
+  :type '(list (list string function))
+  :group 'caseformat)
 
 (defvar caseformat-mode-map
   (let ((map (make-sparse-keymap)))
