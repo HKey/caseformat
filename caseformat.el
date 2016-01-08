@@ -61,7 +61,8 @@ have a parameter and return a converted string like `capitalize'.
       |                 (to be converted by `capitalize' by default)
  not converted"
   :type '(list (list string function))
-  :group 'caseformat)
+  :group 'caseformat
+  :package-version '(caseformat . "0.1.0"))
 
 (defvar caseformat-mode-map
   (let ((map (make-sparse-keymap)))
