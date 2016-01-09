@@ -75,6 +75,13 @@ To indicate the cursor position, use the value of
       (should (equal rs es))
       (should (= rp ep)))))
 
+(defun caseformat-test-with-global-mode (action)
+  "Run ACTION with context that `global-caseformat-mode' is enabled.
+ACTION is a function."
+  (global-caseformat-mode 1)
+  (funcall action)
+  (global-caseformat-mode 0))
+
 
 (ert-deftest caseformat-test-convert ()
   (should (equal (caseformat-convert "foo") "foo"))
@@ -99,6 +106,37 @@ To indicate the cursor position, use the value of
    (lambda () (caseformat-backward 2))
    "-foo :bar`|'"
    "Foo BAR`|'"))
+
+(ert-deftest caseformat-test-global-mode-selector ()
+  (let ((ruby-buffer (get-buffer-create "*caseformat-test ruby*"))
+        (lisp-buffer (get-buffer-create "*caseformat-test lisp*")))
+    (with-current-buffer ruby-buffer (ruby-mode))
+    (with-current-buffer lisp-buffer (lisp-mode))
+
+    ;; check the result of `caseformat-global-mode-selector'
+    (let ((caseformat-global-mode-selector
+           (lambda () (not (eq major-mode 'lisp-mode)))))
+      ;; prevent "Unused lexical variable" warning
+      caseformat-global-mode-selector
+
+      (caseformat-test-with-global-mode
+       (lambda ()
+         (with-current-buffer ruby-buffer
+           (should caseformat-mode))
+         (with-current-buffer lisp-buffer
+           (should-not caseformat-mode)))))
+
+    ;; always enable `global-caseformat-mode'
+    (let ((caseformat-global-mode-selector nil))
+      ;; prevent "Unused lexical variable" warning
+      caseformat-global-mode-selector
+
+      (caseformat-test-with-global-mode
+       (lambda ()
+         (with-current-buffer ruby-buffer
+           (should caseformat-mode))
+         (with-current-buffer lisp-buffer
+           (should caseformat-mode)))))))
 
 (provide 'caseformat-test)
 ;;; caseformat-test.el ends here

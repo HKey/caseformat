@@ -64,6 +64,24 @@ have a parameter and return a converted string like `capitalize'.
   :group 'caseformat
   :package-version '(caseformat . "0.1.0"))
 
+(defcustom caseformat-global-mode-selector nil
+  "A function which selects whether `caseformat-mode' is enabled or not.
+This is useful to disable `caseformat-mode' in specified buffers when
+using `global-caseformat-mode'.
+This function is called by `global-caseformat-mode' for each buffer and
+run in the target buffer.
+If the function returns non-nil or this variable is not a function,
+`caseformat-mode' is enabled by `global-caseformat-mode'.
+
+For example, if you want to disable `caseformat-mode' in the minibuffer,
+please set this variable to:
+
+  (lambda () (not (minibufferp)))"
+  :type '(choice (function :tag "Selector function")
+                 (const :tag "Enable always" nil))
+  :group 'caseformat
+  :package-version '(caseformat . "0.2.0"))
+
 (defvar caseformat-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "M-l") #'caseformat-backward)
@@ -157,10 +175,17 @@ This command does not move the cursor position."
   :group 'caseformat
   :keymap caseformat-mode-map)
 
+(defun caseformat--turn-on-caseformat-mode ()
+  "Turn on `caseformat-mode' if needed.
+See also: `caseformat-global-mode-selector'"
+  (when (or (not (functionp caseformat-global-mode-selector))
+            (funcall caseformat-global-mode-selector))
+    (caseformat-mode 1)))
+
 ;;;###autoload
 (define-globalized-minor-mode global-caseformat-mode
   caseformat-mode
-  (lambda () (caseformat-mode 1)))
+  caseformat--turn-on-caseformat-mode)
 
 (provide 'caseformat)
 ;;; caseformat.el ends here
