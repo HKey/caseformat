@@ -2,6 +2,8 @@
 
 ## 0.2.0
 
+[Commits](https://github.com/HKey/caseformat/compare/0.1.0...master)
+
 - Made `global-caseformat-mode` selectable.  
   You can disable `caseformat-mode` in specified buffers when using
   `global-caseformat-mode`.  
