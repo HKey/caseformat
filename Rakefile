@@ -34,8 +34,11 @@ task :test do
 end
 
 desc 'Run compilation test'
-task compilation_test: [:clean, :compile] do
+task compilation_test: :clean do
   byte_compile_file 'caseformat.el', true
+  COMPILATION_TARGETS.exclude('caseformat.el').each do |el_file|
+    byte_compile_file el_file
+  end
 end
 
 desc 'Run all tests'
