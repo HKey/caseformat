@@ -28,9 +28,9 @@ script:
   - emacs --version
   - rake $RAKE_COMMAND
 env:
-  - EVM_EMACS=emacs-24.1-travis RAKE_COMMAND=test
-  - EVM_EMACS=emacs-24.2-travis RAKE_COMMAND=test
-  - EVM_EMACS=emacs-24.3-travis RAKE_COMMAND=test
-  - EVM_EMACS=emacs-24.4-travis RAKE_COMMAND=test
-  - EVM_EMACS=emacs-24.5-travis RAKE_COMMAND=test
+  - EVM_EMACS=emacs-24.1-travis RAKE_COMMAND=test_all
+  - EVM_EMACS=emacs-24.2-travis RAKE_COMMAND=test_all
+  - EVM_EMACS=emacs-24.3-travis RAKE_COMMAND=test_all
+  - EVM_EMACS=emacs-24.4-travis RAKE_COMMAND=test_all
+  - EVM_EMACS=emacs-24.5-travis RAKE_COMMAND=test_all
   - EVM_EMACS=emacs-24.5-travis RAKE_COMMAND=coverage
