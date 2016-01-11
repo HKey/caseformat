@@ -23,7 +23,7 @@ rule '.elc' => '.el' do |t|
 end
 
 desc 'Compile emacs lisp files'
-task compile: ['caseformat.elc', 'test/caseformat-test.elc']
+task compile: COMPILATION_TARGETS.ext('.elc')
 
 desc 'Run tests'
 task :test do
@@ -34,10 +34,8 @@ task :test do
 end
 
 desc 'Run compilation test'
-task compilation_test: :clean do
-  COMPILATION_TARGETS.each do |el_file|
-    byte_compile_file el_file, true
-  end
+task compilation_test: [:clean, :compile] do
+  byte_compile_file 'caseformat.el', true
 end
 
 desc 'Run all tests'
