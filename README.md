@@ -11,6 +11,9 @@ Caseformat is a format based letter case converter.
 
 This tool helps you to insert uppercase alphabetical characters without
 shift keys.
+This is inspired by [sticky](http://www.emacswiki.org/emacs/sticky.el),
+[sequential-command](http://www.emacswiki.org/emacs/sequential-command.el) and
+[electric-case](https://github.com/zk-phi/electric-case).
 
 ## Installation
 
