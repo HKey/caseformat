@@ -14,6 +14,10 @@
   (setq caseformat-global-mode-selector (lambda () (not (minibufferp))))
   ```
 
+- Added ability to repeat like [sequential-command](http://www.emacswiki.org/emacs/sequential-command.el).  
+  This is enabled by default.
+  If you want to disable this, set `caseformat-enable-repetition` to `nil`.
+
 ## 0.1.0
 
 - First release
