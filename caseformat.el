@@ -82,11 +82,29 @@ please set this variable to:
   :group 'caseformat
   :package-version '(caseformat . "0.2.0"))
 
+(defcustom caseformat-enable-repetition t
+  "When this is non-nil, enable sequential-command like repetition.
+When this value is non-nil and a same command of caseformat is called
+repeatedly, the command does its action as sequential-command
+like repetition.
+
+Example (\"|\" is the cursor position):
+  -foo-bar :hoge_:huga -baz|  ;; before calling of `caseformat-backward'
+  -foo-bar :hoge_:huga Baz|   ;; after first calling of `caseformat-backward'
+  -foo-bar HOGE_HUGA Baz|     ;; after second calling
+  FooBar HOGE_HUGA Baz|       ;; after third calling"
+  :type 'boolean
+  :group 'caseformat
+  :package-version '(caseformat . "0.2.0"))
+
 (defvar caseformat-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "M-l") #'caseformat-backward)
     map)
   "A keymap for `caseformat-mode'.")
+
+(defvar caseformat--resumption-marker nil
+  "Resumption marker for sequential-command like repetition.")
 
 
 (defun caseformat--split (string table)
@@ -135,6 +153,24 @@ Example:
        (apply #'concat)))
 
 
+(defun caseformat--get-resumption-marker ()
+  "Get the marker for command repetition."
+  (setq caseformat--resumption-marker
+        (or caseformat--resumption-marker
+            (make-marker))))
+
+(defun caseformat--set-resumption-marker (point)
+  "Set the marker for command repetition to POINT."
+  (set-marker (caseformat--get-resumption-marker) point))
+
+(defun caseformat--repeat? ()
+  "Return a marker to resume if current command can repeat."
+  (let ((marker (caseformat--get-resumption-marker)))
+    (and caseformat-enable-repetition
+         (eq this-command last-command)
+         (eq (current-buffer) (marker-buffer marker))
+         marker)))
+
 (defun caseformat--do-convert (n)
   "Convert N chunks of non-whitespace characters from point.
 When N is negative, convert characters backward."
@@ -146,9 +182,13 @@ When N is negative, convert characters backward."
         (count (abs n))
         (point (point-marker)))
     (save-excursion
+      ;; sequential-command like repetition
+      (-when-let (marker (caseformat--repeat?))
+        (goto-char marker))
       (save-match-data
         (while (and (<= 0 (cl-decf count)) (funcall searcher))
           (save-excursion
+            (caseformat--set-resumption-marker (point))
             (goto-char point)        ; to remember the cursor position
             (replace-match (caseformat-convert (match-string 1)) t nil nil 1)))))))
 

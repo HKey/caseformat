@@ -138,5 +138,36 @@ ACTION is a function."
          (with-current-buffer lisp-buffer
            (should caseformat-mode)))))))
 
+(ert-deftest caseformat-test-enable-repetition ()
+  ;; This test does not success when called by `ert-run-tests-interactively'.
+  (let ((forward-test
+         (lambda ()
+           (cl-dotimes (_ 2)
+             (call-interactively #'caseformat-forward t))))
+        (backward-test
+         (lambda ()
+           (cl-dotimes (_ 2)
+             (call-interactively #'caseformat-backward t)))))
+    (let ((caseformat-enable-repetition nil))
+      ;; disable repetition
+      (caseformat-test-should-with-temp-buffer
+       forward-test
+       "`|'-foo :bar"
+       "`|'Foo :bar")
+      (caseformat-test-should-with-temp-buffer
+       backward-test
+       "-foo :bar`|'"
+       "-foo BAR`|'"))
+    (let ((caseformat-enable-repetition t))
+      ;; enable repetition
+      (caseformat-test-should-with-temp-buffer
+       forward-test
+       "`|'-foo :bar"
+       "`|'Foo BAR")
+      (caseformat-test-should-with-temp-buffer
+       backward-test
+       "-foo :bar`|'"
+       "Foo BAR`|'"))))
+
 (provide 'caseformat-test)
 ;;; caseformat-test.el ends here
