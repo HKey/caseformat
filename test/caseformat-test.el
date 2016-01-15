@@ -87,7 +87,16 @@ ACTION is a function."
   (should (equal (caseformat-convert "foo") "foo"))
   (should (equal (caseformat-convert "-foo") "Foo"))
   (should (equal (caseformat-convert "foo-bar:baz") "fooBarBAZ"))
-  (should (equal (caseformat-convert "---foo:") "--Foo:")))
+  (should (equal (caseformat-convert "---foo:") "--Foo:"))
+
+  ;; no prefix tests
+  (let ((caseformat-converter-table '(("-" capitalize) (t downcase))))
+    ;; a prefix
+    (should (equal (caseformat-convert "FOO-BAR") "FOOBar"))
+    ;; no prefix
+    (should (equal (caseformat-convert "FOO_BAR") "foo_bar")))
+  (let ((caseformat-converter-table '((t downcase))))
+    (should (equal (caseformat-convert "FOO-BAR") "foo-bar"))))
 
 (ert-deftest caseformat-test-commands ()
   (caseformat-test-should-with-temp-buffer
