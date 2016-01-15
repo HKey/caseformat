@@ -43,7 +43,8 @@
 
 (defcustom caseformat-converter-table
   '(("-" capitalize)
-    (":" upcase))
+    (":" upcase)
+    (t downcase))
   "A list which indicates how to convert alphabetical strings.
 Each element is a list like (<prefix> <converter>).
 <prefix> is a string which indicates the start of conversion.  <prefix> can
@@ -65,7 +66,7 @@ have a parameter and return a converted string like `capitalize'.
   not converted"
   :type '(list (list (choice string (const t)) function))
   :group 'caseformat
-  :package-version '(caseformat . "0.1.0"))
+  :package-version '(caseformat . "0.2.0"))
 
 (defcustom caseformat-global-mode-selector nil
   "A function which selects whether `caseformat-mode' is enabled or not.

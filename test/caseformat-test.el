@@ -156,7 +156,8 @@ ACTION is a function."
         (backward-test
          (lambda ()
            (cl-dotimes (_ 2)
-             (call-interactively #'caseformat-backward t)))))
+             (call-interactively #'caseformat-backward t))))
+        (caseformat-converter-table '(("-" capitalize) (":" upcase))))
     (let ((caseformat-enable-repetition nil))
       ;; disable repetition
       (caseformat-test-should-with-temp-buffer
