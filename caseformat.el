@@ -43,26 +43,30 @@
 
 (defcustom caseformat-converter-table
   '(("-" capitalize)
-    (":" upcase))
+    (":" upcase)
+    (t downcase))
   "A list which indicates how to convert alphabetical strings.
 Each element is a list like (<prefix> <converter>).
-<prefix> is a string which indicates the start of conversion.
+<prefix> is a string which indicates the start of conversion.  <prefix> can
+also be t (symbol).  It indicates that there is no prefix string in an
+argument string of `caseformat-convert' and the corresponding function is
+used to convert the argument string, not a separated alphabetical string.
 <converter> is a function used to convert an alphabetical string.  It should
 have a parameter and return a converted string like `capitalize'.
 
-         -------------- prefixes
-         |    |
-         v    v
-    camel-case-string
-    ~~~~~ ~~~~~ ~~~~
-      ^     ^     ^
-      |     |     |
-      |     ----------- target strings
-      |                 (to be converted by `capitalize' by default)
- not converted"
-  :type '(list (list string function))
+          -------------- prefixes
+          |    |
+          v    v
+     camel-case-string
+     ~~~~~ ~~~~~ ~~~~
+       ^     ^     ^
+       |     |     |
+       |     ----------- target strings
+       |                 (to be converted by `capitalize' by default)
+  not converted"
+  :type '(list (list (choice string (const t)) function))
   :group 'caseformat
-  :package-version '(caseformat . "0.1.0"))
+  :package-version '(caseformat . "0.2.0"))
 
 (defcustom caseformat-global-mode-selector nil
   "A function which selects whether `caseformat-mode' is enabled or not.
@@ -107,6 +111,22 @@ Example (\"|\" is the cursor position):
   "Resumption marker for sequential-command like repetition.")
 
 
+(defun caseformat--split-1 (string table)
+  "Split STRING into a list based on TABLE.
+A utility function of `caseformat--split'."
+  (-if-let* ((prefixes (-filter #'stringp (-map #'car table)))
+             ((_ no-prefix prefix body other)
+              (s-match
+               (format "\\`\\(.*?\\)\\(%s\\)\\([A-Za-z]+\\)\\(.*\\)\\'"
+                       (regexp-opt prefixes))
+               string)))
+      (append
+       (-non-nil
+        (list (and (s-present? no-prefix) (cons nil no-prefix))
+              (cons prefix body)))
+       (caseformat--split-1 other table))
+    (list (cons nil string))))
+
 (defun caseformat--split (string table)
   "Split STRING into a list based on TABLE.
 STRING is a target string.
@@ -117,19 +137,17 @@ Each element of the returned list is a cons cell like (<prefix> . <body>).
 
 Example:
   (caseformat--split \"foo-bar:baz\" caseformat-converter-table)
-  ;; => ((nil . \"foo\") (\"-\" . \"bar\") (\":\" . \"baz\"))"
-  (let ((prefixes (-map #'car table)))
-    (-if-let ((_ no-prefix prefix body other)
-              (s-match
-               (format "\\`\\(.*?\\)\\(%s\\)\\([A-Za-z]+\\)\\(.*\\)\\'"
-                       (regexp-opt prefixes))
-               string))
-        (append
-         (-non-nil
-          (list (and (s-present? no-prefix) (cons nil no-prefix))
-                (cons prefix body)))
-         (caseformat--split other table))
-      (list (cons nil string)))))
+  ;; => ((nil . \"foo\") (\"-\" . \"bar\") (\":\" . \"baz\"))
+
+  (caseformat--split \"foobar\" caseformat-converter-table)
+  ;; => ((t . \"foobar\"))"
+  (let* ((result (caseformat--split-1 string table))
+         (first (cl-first result)))
+    (if (and (= (length result) 1)
+             (null (car first)))
+        ;; STRING has no prefix string
+        `((t . ,(cdr first)))
+      result)))
 
 (defun caseformat--convert (string prefix table)
   "Convert STRING with PREFIX based on TABLE.

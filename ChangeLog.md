@@ -18,6 +18,11 @@
   This is enabled by default.
   If you want to disable this, set `caseformat-enable-repetition` to `nil`.
 
+- Added an option to set a converter function for a no-prefix string and
+  added `downcase` as it to `caseformat-converter-table`.  
+  So now caseformat converts a no-prefix string, e.g. "FOOBAR",
+  using `downcase` by default.
+
 ## 0.1.0
 
 - First release

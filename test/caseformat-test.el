@@ -87,7 +87,16 @@ ACTION is a function."
   (should (equal (caseformat-convert "foo") "foo"))
   (should (equal (caseformat-convert "-foo") "Foo"))
   (should (equal (caseformat-convert "foo-bar:baz") "fooBarBAZ"))
-  (should (equal (caseformat-convert "---foo:") "--Foo:")))
+  (should (equal (caseformat-convert "---foo:") "--Foo:"))
+
+  ;; no prefix tests
+  (let ((caseformat-converter-table '(("-" capitalize) (t downcase))))
+    ;; a prefix
+    (should (equal (caseformat-convert "FOO-BAR") "FOOBar"))
+    ;; no prefix
+    (should (equal (caseformat-convert "FOO_BAR") "foo_bar")))
+  (let ((caseformat-converter-table '((t downcase))))
+    (should (equal (caseformat-convert "FOO-BAR") "foo-bar"))))
 
 (ert-deftest caseformat-test-commands ()
   (caseformat-test-should-with-temp-buffer
@@ -147,7 +156,8 @@ ACTION is a function."
         (backward-test
          (lambda ()
            (cl-dotimes (_ 2)
-             (call-interactively #'caseformat-backward t)))))
+             (call-interactively #'caseformat-backward t))))
+        (caseformat-converter-table '(("-" capitalize) (":" upcase))))
     (let ((caseformat-enable-repetition nil))
       ;; disable repetition
       (caseformat-test-should-with-temp-buffer
