@@ -15,6 +15,13 @@ This is inspired by [sticky](http://www.emacswiki.org/emacs/sticky.el),
 [sequential-command](http://www.emacswiki.org/emacs/sequential-command.el) and
 [electric-case](https://github.com/zk-phi/electric-case).
 
+## Requirements
+
+- Emacs 24 or later
+- cl-lib
+- [dash](https://github.com/magnars/dash.el)
+- [s](https://github.com/magnars/s.el)
+
 ## Installation
 
 You can install caseformat from [MELPA](https://melpa.org/#/) or
