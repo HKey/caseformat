@@ -33,6 +33,17 @@ task :test do
   sh(*command)
 end
 
+desc 'Run tests with .el files'
+task raw_test: [:clean, :test]
+
+desc 'Run tests with .elc files'
+task compiled_test: :compile do
+  command =
+    %W(#{CASK} exec #{EMACS} -Q -batch -L . -l test/caseformat-test.elc
+       -f ert-run-tests-batch-and-exit)
+  sh(*command)
+end
+
 desc 'Run compilation test'
 task compilation_test: :clean do
   byte_compile_file 'caseformat.el', true
@@ -42,7 +53,7 @@ task compilation_test: :clean do
 end
 
 desc 'Run all tests'
-task test_all: [:compilation_test, :test]
+task test_all: [:raw_test, :compilation_test, :compiled_test]
 
 desc 'Measure coverage'
 task coverage: :clean do
