@@ -67,8 +67,17 @@ The default value of it is below:
 ```emacs-lisp
 caseformat-converter-table
 ;; => (("-" capitalize)
-;;     (":" upcase))
+;;     (":" upcase)
+;;     (t downcase))
 ```
+
+### Conversion of a no-prefix string
+
+A function which corresponds to `t` in `caseformat-converter-table`,
+it is called to convert a string if the string has no prefix.
+
+By default, "FOOBAR" is converted to "foobar" by `downcase` but
+"FOO-BAR" is converted to "FOOBar".
 
 ## Versioning
 
