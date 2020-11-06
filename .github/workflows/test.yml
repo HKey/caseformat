@@ -1,0 +1,29 @@
+name: test
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        emacs_version:
+          # - 24.5 # cask does not support
+          - 25.3
+          - 26.3
+          - 27.1
+      max-parallel: 1
+    steps:
+      - uses: purcell/setup-emacs@v2.0
+        with:
+          version: ${{ matrix.emacs_version }}
+      - uses: actions/checkout@v2
+      - name: setup cask
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/cask/cask/master/go | python
+          echo "$HOME/.cask/bin" >> $GITHUB_PATH
+      - name: test
+        run: |
+          cask
+          rake test_all
