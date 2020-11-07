@@ -25,5 +25,7 @@ jobs:
           echo "$HOME/.cask/bin" >> $GITHUB_PATH
       - name: test
         run: |
+          emacs --version
+          cask --version
           cask
           rake test_all
