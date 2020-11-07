@@ -10,8 +10,8 @@ jobs:
       matrix:
         emacs_version:
           # - 24.5 # cask does not support
-          - 25.3
-          - 26.3
+          # - 25.3
+          # - 26.3
           - 27.1
       max-parallel: 1
     steps:
