@@ -27,6 +27,7 @@ jobs:
       - name: test
         run: |
           emacs --version
+          emacs --batch --quick --eval '(message "%s" system-configuration-options)'
           cask --version
           cask
           rake test_all
