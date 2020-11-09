@@ -11,8 +11,8 @@ jobs:
         emacs_version:
           # - 24.5 # cask does not support
           # - 25.3
-          - 26.2
-          # - 26.3
+          # - 26.2
+          - 26.3
           # - 27.1
       max-parallel: 1
     steps:
